@@ -11,6 +11,7 @@ import AppLoading from 'expo-app-loading';
 import {Provider} from 'react-redux';
 import {store} from './src/redux';
 import {socketActions} from './src/redux/slices/socketSlice';
+import RNBootSplash from 'react-native-bootsplash';
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -24,6 +25,7 @@ const App: React.FC = () => {
   });
 
   if (!fontsLoaded) {
+    RNBootSplash.hide();
     return <AppLoading />;
   }
 
