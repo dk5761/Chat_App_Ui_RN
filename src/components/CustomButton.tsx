@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import React from 'react';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 export type Props = {
   value: string;
@@ -22,8 +22,7 @@ const CustomButton: React.FC<Props> = ({
     <View>
       <Pressable
         onPress={onPress}
-        style={({ pressed }) => [{ opacity: pressed ? 0.9 : 1.0 }]}
-      >
+        style={({pressed}) => [{opacity: pressed ? 0.9 : 1.0}]}>
         <View
           style={[
             styles.buttonContainer,
@@ -31,8 +30,7 @@ const CustomButton: React.FC<Props> = ({
             {
               backgroundColor: color,
             },
-          ]}
-        >
+          ]}>
           <Text
             style={[
               styles.buttonText,
@@ -40,8 +38,7 @@ const CustomButton: React.FC<Props> = ({
                 color: textColor,
               },
               styleButtonText,
-            ]}
-          >
+            ]}>
             {value}
           </Text>
         </View>
@@ -54,12 +51,12 @@ const styles = StyleSheet.create({
   buttonContainer: {
     height: 42,
     width: 90,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 13,
   },
   buttonText: {
-    fontFamily: "Nunito_700Bold",
+    fontFamily: 'Nunito-Bold',
     fontSize: 18,
   },
 });

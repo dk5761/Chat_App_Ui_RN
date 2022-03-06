@@ -39,15 +39,6 @@ const updateExpoToken = async (jwtToken: string) => {
   });
 };
 
-const getExpoToken = async () => {
-  try {
-    const token = await AsyncStorage.getItem('deviceToken');
-    if (token !== null) {
-      return token;
-    }
-  } catch (e) {}
-};
-
 export const registerUser = createAsyncThunk(
   'users/signupUser',
   async ({username, email, password}: any, thunkAPI) => {

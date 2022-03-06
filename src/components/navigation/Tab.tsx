@@ -1,21 +1,20 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 
 type Props = {
   label: any;
   isCurrent?: boolean;
 };
 
-export const Tab = ({ label, isCurrent }: Props) => {
+export const Tab = ({label, isCurrent}: Props) => {
   return (
     <View
       style={{
-        height: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text style={{ color: isCurrent ? "white" : "black", ...style.Text }}>
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Text style={{color: isCurrent ? 'white' : 'black', ...style.Text}}>
         {label}
       </Text>
     </View>
@@ -24,7 +23,7 @@ export const Tab = ({ label, isCurrent }: Props) => {
 
 const style = StyleSheet.create({
   Text: {
-    fontFamily: "Nunito_600SemiBold",
+    fontFamily: 'Nunito-SemiBold',
     fontSize: 17,
   },
 });

@@ -1,9 +1,10 @@
-import { createStackNavigator } from "@react-navigation/stack";
-import ChatScreen from "../screens/chatScreens/ChatScreen";
-import ProfileScreen from "../screens/chatScreens/ProfileScreen";
-import { ChatStackParamList } from "./types";
-import ChatHeader from "../components/stackHeader/ChatHeader";
-import ProfileHeader from "../components/stackHeader/ProfileHeader";
+import {createStackNavigator} from '@react-navigation/stack';
+import ChatScreen from '../screens/chatScreens/ChatScreen';
+import ProfileScreen from '../screens/chatScreens/ProfileScreen';
+import {ChatStackParamList} from './types';
+import ChatHeader from '../components/stackHeader/ChatHeader';
+import ProfileHeader from '../components/stackHeader/ProfileHeader';
+import React from 'react';
 
 const Stack = createStackNavigator<ChatStackParamList>();
 
@@ -14,13 +15,13 @@ const ChatStack = () => {
         name="Chat"
         component={ChatScreen}
         options={{
-          header: (props) => <ChatHeader {...props} />,
+          header: props => <ChatHeader {...props} />,
         }}
       />
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{ header: (props) => <ProfileHeader {...props} /> }}
+        options={{header: props => <ProfileHeader {...props} />}}
       />
     </Stack.Navigator>
   );

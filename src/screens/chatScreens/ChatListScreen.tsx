@@ -8,6 +8,7 @@ import ListItem from '../../components/ListItem';
 import {deleteUser, getChatList} from '../../database/db';
 import {appSelector} from '../../redux/slices/appSlice';
 import {socketSelector} from '../../redux/slices/socketSlice';
+import messaging from '@react-native-firebase/messaging';
 
 interface chatListItem {
   id: string;

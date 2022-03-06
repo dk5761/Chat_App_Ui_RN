@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 
 export type Props = {};
 
@@ -13,11 +13,11 @@ const FillerPage: React.FC<Props> = () => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
+    alignItems: 'center',
     margin: 5,
   },
   text: {
-    fontFamily: "Nunito_600SemiBold",
+    fontFamily: 'Nunito-SemiBold',
   },
 });
 

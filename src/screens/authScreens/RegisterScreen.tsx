@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, {useRef, useState} from 'react';
 import {
   View,
   TextInput,
@@ -6,21 +6,21 @@ import {
   Text,
   Pressable,
   StyleSheet,
-} from "react-native";
-import { useDispatch } from "react-redux";
-import CustomButton from "../../components/CustomButton";
-import TextInputField from "../../components/TextInput";
-import { loginUser, registerUser } from "../../redux/slices/userSlice";
+} from 'react-native';
+import {useDispatch} from 'react-redux';
+import CustomButton from '../../components/CustomButton';
+import TextInputField from '../../components/TextInput';
+import {loginUser, registerUser} from '../../redux/slices/userSlice';
 
 export type Props = {
   navigation: any;
 };
 
-const RegisterScreen: React.FC<Props> = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState<string>("assd");
-  const [username, setUsername] = useState<string>("");
-  const [repassword, setRepassword] = useState<string>("assd");
+const RegisterScreen: React.FC<Props> = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState<string>('assd');
+  const [username, setUsername] = useState<string>('');
+  const [repassword, setRepassword] = useState<string>('assd');
 
   //create refs for the inputs
   const emailRef: any = useRef<TextInput>();
@@ -33,42 +33,42 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
     email: string,
     username: string,
     password: string,
-    repassword: string
+    repassword: string,
   ) => {
     if (
-      email === "" ||
-      password === "" ||
-      username === "" ||
-      repassword === ""
+      email === '' ||
+      password === '' ||
+      username === '' ||
+      repassword === ''
     ) {
       return Alert.alert(
-        "Invalid Credentials",
-        "Please enter proper credentials",
+        'Invalid Credentials',
+        'Please enter proper credentials',
         [
           {
-            text: "Cancel",
-            style: "cancel",
+            text: 'Cancel',
+            style: 'cancel',
           },
         ],
         {
           cancelable: true,
-        }
+        },
       );
     }
 
     if (repassword !== password) {
       return Alert.alert(
-        "Invalid Credentials",
-        "Passwords do not match",
+        'Invalid Credentials',
+        'Passwords do not match',
         [
           {
-            text: "Cancel",
-            style: "cancel",
+            text: 'Cancel',
+            style: 'cancel',
           },
         ],
         {
           cancelable: true,
-        }
+        },
       );
     }
 
@@ -77,7 +77,7 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
         email,
         password,
         username,
-      })
+      }),
     );
   };
 
@@ -85,16 +85,14 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
     <View style={styles.container}>
       <View
         style={{
-          width: "100%",
-          alignItems: "center",
-        }}
-      >
+          width: '100%',
+          alignItems: 'center',
+        }}>
         <Text
           style={{
-            fontFamily: "Nunito_700Bold",
+            fontFamily: 'Nunito-Bold',
             fontSize: 26,
-          }}
-        >
+          }}>
           Register
         </Text>
       </View>
@@ -139,23 +137,21 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
           value="Submit"
           textColor="white"
           color="#2675EC"
-          styleButtonContainer={{ alignSelf: "center" }}
+          styleButtonContainer={{alignSelf: 'center'}}
         />
         <View style={styles.spacer} />
 
         <View
           style={{
-            width: "100%",
-            alignItems: "center",
-          }}
-        >
-          <Pressable onPress={() => navigation.navigate("Login")}>
+            width: '100%',
+            alignItems: 'center',
+          }}>
+          <Pressable onPress={() => navigation.navigate('Login')}>
             <Text
               style={{
-                fontFamily: "Nunito_700Bold",
+                fontFamily: 'Nunito-Bold',
                 fontSize: 14,
-              }}
-            >
+              }}>
               Existing User? Click here to Login
             </Text>
           </Pressable>
@@ -167,9 +163,9 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   imageHolder: {
     flex: 2,
@@ -180,7 +176,7 @@ const styles = StyleSheet.create({
 
     paddingHorizontal: 30,
     paddingVertical: 20,
-    justifyContent: "space-evenly",
+    justifyContent: 'space-evenly',
   },
   spacer: {
     height: 20,

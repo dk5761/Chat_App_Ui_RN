@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   TextInput,
@@ -6,38 +6,38 @@ import {
   Text,
   Pressable,
   StyleSheet,
-} from "react-native";
-import { useDispatch } from "react-redux";
-import CustomButton from "../../components/CustomButton";
-import TextInputField from "../../components/TextInput";
-import { loginUser } from "../../redux/slices/userSlice";
+} from 'react-native';
+import {useDispatch} from 'react-redux';
+import CustomButton from '../../components/CustomButton';
+import TextInputField from '../../components/TextInput';
+import {loginUser} from '../../redux/slices/userSlice';
 
 export type Props = {
   navigation: any;
 };
 
-const LoginScreen: React.FC<Props> = ({ navigation }) => {
-  const [email, setEmail] = useState("zxc@asd.com");
-  const [password, setPassword] = useState<string>("zxc");
+const LoginScreen: React.FC<Props> = ({navigation}) => {
+  const [email, setEmail] = useState('zxc@asd.com');
+  const [password, setPassword] = useState<string>('zxc');
   //create refs for the inputs
   const emailRef: any = useRef<TextInput>();
   const passwordRef: any = useRef<TextInput>();
 
   const dispatch = useDispatch();
   const login = async (email: string, password: string) => {
-    if (email === "" || password === "") {
+    if (email === '' || password === '') {
       return Alert.alert(
-        "Invalid Credentials",
-        "Please enter proper credentials",
+        'Invalid Credentials',
+        'Please enter proper credentials',
         [
           {
-            text: "Cancel",
-            style: "cancel",
+            text: 'Cancel',
+            style: 'cancel',
           },
         ],
         {
           cancelable: true,
-        }
+        },
       );
     }
 
@@ -45,7 +45,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       loginUser({
         email,
         password,
-      })
+      }),
     );
   };
 
@@ -53,16 +53,14 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     <View style={styles.container}>
       <View
         style={{
-          width: "100%",
-          alignItems: "center",
-        }}
-      >
+          width: '100%',
+          alignItems: 'center',
+        }}>
         <Text
           style={{
-            fontFamily: "Nunito_700Bold",
+            fontFamily: 'Nunito-Bold',
             fontSize: 26,
-          }}
-        >
+          }}>
           Login
         </Text>
       </View>
@@ -90,22 +88,20 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           value="Submit"
           textColor="white"
           color="#2675EC"
-          styleButtonContainer={{ alignSelf: "center" }}
+          styleButtonContainer={{alignSelf: 'center'}}
         />
         <View style={styles.spacer} />
         <View
           style={{
-            width: "100%",
-            alignItems: "center",
-          }}
-        >
-          <Pressable onPress={() => navigation.navigate("Register")}>
+            width: '100%',
+            alignItems: 'center',
+          }}>
+          <Pressable onPress={() => navigation.navigate('Register')}>
             <Text
               style={{
-                fontFamily: "Nunito_700Bold",
+                fontFamily: 'Nunito-Bold',
                 fontSize: 14,
-              }}
-            >
+              }}>
               New user? Click here to register
             </Text>
           </Pressable>
@@ -117,9 +113,9 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   imageHolder: {
     flex: 2,
@@ -130,7 +126,7 @@ const styles = StyleSheet.create({
 
     paddingHorizontal: 30,
     paddingVertical: 20,
-    justifyContent: "space-evenly",
+    justifyContent: 'space-evenly',
   },
   spacer: {
     height: 20,

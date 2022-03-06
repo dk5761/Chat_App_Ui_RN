@@ -1,5 +1,5 @@
-import { StackHeaderProps } from "@react-navigation/stack";
-import React from "react";
+import {StackHeaderProps} from '@react-navigation/stack';
+import React from 'react';
 import {
   View,
   Text,
@@ -7,20 +7,20 @@ import {
   Image,
   Pressable,
   ToastAndroid,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
-import ProfileRectSVG from "../svgComponents/profileDots";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
-import { socketActions } from "../../redux/slices/socketSlice";
+} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Ionicons} from '@expo/vector-icons';
+import ProfileRectSVG from '../svgComponents/profileDots';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
+import {useDispatch} from 'react-redux';
+import {socketActions} from '../../redux/slices/socketSlice';
 
 type Props = StackHeaderProps;
 
-const ChatHeader: React.FC<Props> = ({ route, navigation }: any) => {
+const ChatHeader: React.FC<Props> = ({route, navigation}: any) => {
   const dispatch = useDispatch();
   return (
-    <SafeAreaView style={{ backgroundColor: "white" }}>
+    <SafeAreaView style={{backgroundColor: 'white'}}>
       <View style={styles.container}>
         <View style={styles.headerLeft}>
           <Ionicons
@@ -32,7 +32,7 @@ const ChatHeader: React.FC<Props> = ({ route, navigation }: any) => {
         </View>
         <View style={styles.middle}>
           <Image
-            source={{ uri: route.params.data.profileImageUrl }}
+            source={{uri: route.params.data.profileImageUrl}}
             style={styles.image}
           />
           <Text style={styles.title}>{route.params.data.username}</Text>
@@ -44,12 +44,9 @@ const ChatHeader: React.FC<Props> = ({ route, navigation }: any) => {
               marginRight: 15,
             }}
             onPress={() => {
-              dispatch(
-                socketActions.clearMessages({ id: route.params.data.id })
-              );
-              ToastAndroid.show("Cleared the chat", ToastAndroid.SHORT);
-            }}
-          >
+              dispatch(socketActions.clearMessages({id: route.params.data.id}));
+              ToastAndroid.show('Cleared the chat', ToastAndroid.SHORT);
+            }}>
             <MaterialCommunityIcons
               name="delete-empty"
               size={26}
@@ -58,14 +55,13 @@ const ChatHeader: React.FC<Props> = ({ route, navigation }: any) => {
           </Pressable>
           <Pressable
             onPress={() =>
-              navigation.navigate("Profile", {
+              navigation.navigate('Profile', {
                 data: route.params.data,
               })
             }
             style={{
               marginRight: 15,
-            }}
-          >
+            }}>
             <ProfileRectSVG />
           </Pressable>
         </View>
@@ -77,37 +73,37 @@ const ChatHeader: React.FC<Props> = ({ route, navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     height: 75,
-    width: "100%",
-    flexDirection: "row",
-    backgroundColor: "white",
+    width: '100%',
+    flexDirection: 'row',
+    backgroundColor: 'white',
   },
   headerLeft: {
     flex: 1,
-    alignSelf: "center",
+    alignSelf: 'center',
     marginRight: 15,
     marginLeft: 10,
   },
   middle: {
     flex: 9,
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   image: {
     height: 60,
     width: 60,
-    alignSelf: "center",
+    alignSelf: 'center',
     borderRadius: 23,
   },
   title: {
-    alignSelf: "center",
-    fontFamily: "Nunito_700Bold",
+    alignSelf: 'center',
+    fontFamily: 'Nunito-Bold',
     fontSize: 18,
     marginHorizontal: 10,
   },
   lower: {
     flex: 3,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
 });
 
