@@ -6,6 +6,7 @@ import DeviceInfo from 'react-native-device-info';
 import axios from 'axios';
 import {addUser, checkUser} from '../../database/db';
 import {appActions} from '../../redux/slices/appSlice';
+import {API_URL} from 'react-native-dotenv';
 
 let hostURL: string;
 
@@ -37,6 +38,7 @@ const socketMiddleware: Middleware = (store: any) => {
     const isConnected = socket && socketState.isConnected;
 
     const addUserInChatList = async (id: string) => {
+      console.log('inside the chatlist of socket');
       try {
         const token = await getToken();
         if (token !== null) {
@@ -46,8 +48,9 @@ const socketMiddleware: Middleware = (store: any) => {
             },
           });
           let data = await response.data;
+          console.log('socket data', data);
           const time = new Date();
-          addUser({
+          const res = await addUser({
             id: data._id,
             username: data.username,
             email: data.email,
@@ -55,7 +58,9 @@ const socketMiddleware: Middleware = (store: any) => {
             profileImageUrl: data.profileImageUrl,
             deviceToken: data.deviceToken,
           });
-          store.dispatch(appActions.updateChatList());
+          if (res) {
+            store.dispatch(appActions.updateChatList());
+          }
         }
       } catch (e: any) {
         console.log('Error', e.response.data);
@@ -87,12 +92,12 @@ const socketMiddleware: Middleware = (store: any) => {
           store.dispatch(socketActions.recieveBroadcastMessage(payload));
         });
 
-        socket.on('receiveMessage', payload => {
-          checkUser(payload.sender_id, (value: boolean) => {
-            if (value) {
-              addUserInChatList(payload.sender_id);
-            }
-          });
+        socket.on('receiveMessage', async payload => {
+          const res = await checkUser(payload.sender_id);
+          if (res) {
+            addUserInChatList(payload.sender_id);
+          }
+
           store.dispatch(socketActions.recieveMessage(payload));
         });
       }

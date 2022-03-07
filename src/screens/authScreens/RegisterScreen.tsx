@@ -92,6 +92,7 @@ const RegisterScreen: React.FC<Props> = ({navigation}) => {
           style={{
             fontFamily: 'Nunito-Bold',
             fontSize: 26,
+            color: 'black',
           }}>
           Register
         </Text>
@@ -151,6 +152,7 @@ const RegisterScreen: React.FC<Props> = ({navigation}) => {
               style={{
                 fontFamily: 'Nunito-Bold',
                 fontSize: 14,
+                color: 'black',
               }}>
               Existing User? Click here to Login
             </Text>

@@ -31,8 +31,7 @@ export const getChatList = async () => {
   try {
     const db = await getDatabase();
 
-    const chatList = [];
-
+    const chatList: any = [];
     const query = 'Select * from chatList';
     const results = await db.executeSql(query);
     results.forEach(result => {
@@ -40,8 +39,7 @@ export const getChatList = async () => {
         chatList.push(result.rows.item(index));
       }
     });
-
-    return results;
+    return chatList;
   } catch (err) {
     console.error(err);
     throw Error('Failed to get chatList !!!');
@@ -51,19 +49,17 @@ export const getChatList = async () => {
 export const addUser = async (data: chatListItem) => {
   try {
     const db = await getDatabase();
-
-    const chatList = [];
+    const chatList: any = [];
     const query =
       `insert into chatList (id, username, email, time, profileImageUrl, deviceToken)
         Select ` +
-      ` ${data.id}, ${data.username}, ${data.email}, ${data.time}, ${data.profileImageUrl}, ${data.deviceToken} Where not exists(select * from chatList where id= ${data.id})`;
+      ` "${data.id}", "${data.username}", "${data.email}", "16:26", "${data.profileImageUrl}", "${data.deviceToken}" Where not exists(select * from chatList where id="${data.id}")`;
     const results = await db.executeSql(query);
     results.forEach(result => {
       for (let index = 0; index < result.rows.length; index++) {
         chatList.push(result.rows.item(index));
       }
     });
-
     return results;
   } catch (err) {
     console.error(err);
@@ -74,7 +70,7 @@ export const addUser = async (data: chatListItem) => {
 export const deleteUser = async (id: string) => {
   try {
     const db = await getDatabase();
-    const query = `DELETE FROM chatList WHERE id=${id}`;
+    const query = `DELETE FROM chatList WHERE id="${id}"`;
     const results = await db.executeSql(query);
 
     return results;
@@ -84,13 +80,13 @@ export const deleteUser = async (id: string) => {
   }
 };
 
-export const checkUser = async (id: string, callback: any) => {
+export const checkUser = async (id: string) => {
   try {
     const db = await getDatabase();
-    const query = `SELECT * FROM chatList WHERE id=${id}`;
+    const query = `SELECT * FROM chatList WHERE id="${id}"`;
     const results = await db.executeSql(query);
-
-    return results;
+    const bool = results[0].rows.length === 0 ? true : false;
+    return bool;
   } catch (err) {
     console.error(err);
     throw Error('Failed to get chatList !!!');

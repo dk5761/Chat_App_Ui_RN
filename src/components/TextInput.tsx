@@ -50,6 +50,8 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     paddingHorizontal: 2,
     flex: 4,
+    color: 'black',
+    fontFamily: 'Nunito-Medium',
   },
 });
 

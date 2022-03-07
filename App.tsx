@@ -12,24 +12,14 @@ import {store} from './src/redux';
 import {socketActions} from './src/redux/slices/socketSlice';
 import RNBootSplash from 'react-native-bootsplash';
 import firebase from '@react-native-firebase/app';
-import {registerForPushNotificationsAsync} from './src/utils/notifications';
+import messaging from '@react-native-firebase/messaging';
+import notifee, {EventType} from '@notifee/react-native';
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
 ]);
 
 const App: React.FC = () => {
-  const [fontsLoaded] = useFonts({
-    Nunito_600SemiBold,
-    Nunito_500Medium,
-    // Nunito-Bold,
-  });
-
-  if (!fontsLoaded) {
-    RNBootSplash.hide();
-    return <AppLoading />;
-  }
-
   const intializeFirebase = async () => {
     const firebaseCredentials = {
       apiKey: 'AIzaSyBywsjyORgNS5r1TwEV6DAzbnnxFRihbNE',
@@ -47,11 +37,56 @@ const App: React.FC = () => {
   };
 
   intializeFirebase(); // intialize the Firebase on AppLoading
-  // registerForPushNotificationsAsync();
-
+  const onMessageReceived = async (data: any) => {
+    // Do something
+    // notifee.displayNotification(JSON.parse(message.data.notifee));
+    console.log(data);
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
+    await notifee.displayNotification({
+      title: data.data.title,
+      body: data.data.message,
+      android: {
+        channelId,
+        smallIcon: 'ic_stat_arrow_drop_down_circle',
+      },
+    });
+  };
+  // messaging().onMessage(onMessageReceived);
+  // messaging().setBackgroundMessageHandler(onMessageReceived);
   //connect to socket
   store.dispatch(socketActions.startConnecting());
 
+  useEffect(() => {
+    messaging().onMessage(onMessageReceived);
+    messaging().setBackgroundMessageHandler(onMessageReceived);
+    // notifee.onForegroundEvent(async ({type, detail}) => {
+    //   const {notification, pressAction} = detail;
+    //   switch (type) {
+    //     case EventType.DISMISSED:
+    //       //@ts-ignore
+    //       console.log('dismissed the following notification', notification?.id);
+    //       //@ts-ignore
+    //       await notifee.cancelNotification(notification?.id);
+    //       break;
+    //   }
+    // });
+    // notifee.onBackgroundEvent(async ({type, detail}) => {
+    //   const {notification, pressAction} = detail;
+    //   switch (type) {
+    //     case EventType.DISMISSED:
+    //       //@ts-ignore
+    //       console.log('dismissed the following notification', notification?.id);
+    //       //@ts-ignore
+    //       await notifee.cancelNotification(notification?.id);
+    //       break;
+    //   }
+    // });
+  }, []);
+
+  RNBootSplash.hide();
   return (
     <Provider store={store}>
       <Routes />

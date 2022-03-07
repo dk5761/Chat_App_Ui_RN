@@ -10,56 +10,12 @@ import {addUser} from '../../database/db';
 import {ChatStackParamList} from '../../navigation/types';
 import {socketActions, socketSelector} from '../../redux/slices/socketSlice';
 import {userSelector} from '../../redux/slices/userSlice';
+import {sendMessagePushNotification} from '../../utils/notifications';
 
 export type Props = {
   route: RouteProp<ChatStackParamList, 'Chat'>;
   navigation: StackNavigationProp<ChatStackParamList>;
 };
-
-const serverKey =
-  'AAAAlMsnj4A:APA91bHWdKsTI2X0q00gUHPvMScnYHvQKzv-z0yJzdv8zvhS6gWlj3xd9R_2hKpmOloII9neD9eRN48jSUoQQ0jYMnEvSi5KvbpKB3Uh8bv0ug9vTMIZ4f8AxNIjl4aGJSx7VgwZgqDn';
-
-async function sendPushNotification(
-  deviceToken: string,
-  username: string,
-  text: string,
-) {
-  // const message = {
-  //   to: deviceToken,
-  //   sound: "default",
-  //   title: username,
-  //   body: text,
-  //   data: { someData: "goes here" },
-  //   priority: "high",
-  // };
-  // await fetch("https://exp.host/--/api/v2/push/send", {
-  //   method: "POST",
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Accept-encoding": "gzip, deflate",
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(message),
-  // });
-
-  await fetch('https://fcm.googleapis.com/fcm/send', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `key=${serverKey}`,
-    },
-    body: JSON.stringify({
-      to: deviceToken,
-      priority: 'high',
-      data: {
-        experienceId: '@darshank5761/Hello',
-        scopeKey: '@darshank5761/Hello',
-        title: username,
-        message: text,
-      },
-    }),
-  });
-}
 
 const ChatScreen: React.FC<Props> = ({route}) => {
   const socketState = useSelector(socketSelector, shallowEqual);
@@ -83,7 +39,7 @@ const ChatScreen: React.FC<Props> = ({route}) => {
 
   const sendMessage = () => {
     if (messageText === '') return;
-
+    const username = userState.username;
     const time = new Date();
     const data = {
       sender_id: userState.id,
@@ -93,14 +49,14 @@ const ChatScreen: React.FC<Props> = ({route}) => {
       status: 'sent',
     };
     setMessageText('');
-
+    console.log(route.params.data);
     addUser(route.params.data);
     dispatch(socketActions.sendMessage(data));
-    sendPushNotification(
+    sendMessagePushNotification(
+      {username, message: messageText},
       route.params.data.deviceToken,
-      userState.username,
-      messageText,
     );
+    console.log('cakked ');
   };
 
   const ref: any = useRef<FlatList>();

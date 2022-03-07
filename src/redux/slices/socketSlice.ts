@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 
 export interface User {
   id: string;
@@ -23,7 +23,7 @@ interface chatStatusItem {
 }
 
 export const socketSlice = createSlice({
-  name: "socket",
+  name: 'socket',
   initialState: {
     isConnected: false,
     isEstablishingConnection: false,
@@ -32,10 +32,10 @@ export const socketSlice = createSlice({
     readStatus: {} as chatStatusItem,
   },
   reducers: {
-    startConnecting: (state) => {
+    startConnecting: state => {
       state.isEstablishingConnection = true;
     },
-    connectionEstablished: (state) => {
+    connectionEstablished: state => {
       state.isConnected = true;
       state.isEstablishingConnection = false;
     },
@@ -72,10 +72,10 @@ export const socketSlice = createSlice({
       state.readStatus[action.payload.id] = true;
     },
 
-    onDisconnected: (state) => {
+    onDisconnected: state => {
       state.isConnected = false;
     },
-    onLogOut: (state) => {
+    onLogOut: state => {
       state.isConnected = false;
     },
   },

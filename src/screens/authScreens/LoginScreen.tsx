@@ -43,7 +43,7 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
 
     dispatch(
       loginUser({
-        email,
+        email: email.toLowerCase(),
         password,
       }),
     );
@@ -60,6 +60,7 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
           style={{
             fontFamily: 'Nunito-Bold',
             fontSize: 26,
+            color: 'black',
           }}>
           Login
         </Text>
@@ -101,6 +102,8 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
               style={{
                 fontFamily: 'Nunito-Bold',
                 fontSize: 14,
+
+                color: 'black',
               }}>
               New user? Click here to register
             </Text>

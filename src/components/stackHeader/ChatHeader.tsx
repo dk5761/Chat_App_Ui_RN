@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Nunito-Bold',
     fontSize: 18,
     marginHorizontal: 10,
+    color: 'black',
   },
   lower: {
     flex: 3,

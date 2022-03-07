@@ -199,6 +199,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
     backgroundColor: 'white',
     marginBottom: 8,
+    color: 'black',
   },
   lastMessage: {
     fontFamily: 'Nunito_600SemiBold',

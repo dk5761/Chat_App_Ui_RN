@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'Nunito-Bold',
     fontSize: 23,
-    backgroundColor: 'white',
+    color: 'black',
   },
   lastMessage: {
     fontFamily: 'Nunito_600SemiBold',

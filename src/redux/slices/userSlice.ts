@@ -3,9 +3,10 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeviceInfo from 'react-native-device-info';
 import {registerForPushNotificationsAsync} from '../../utils/notifications';
+import {API_URL} from 'react-native-dotenv';
 
 let hostURL: string;
-
+console.log('the api url', API_URL);
 DeviceInfo.isEmulator().then(isEmulator => {
   if (!isEmulator) {
     hostURL = 'http://192.168.0.104:3000';

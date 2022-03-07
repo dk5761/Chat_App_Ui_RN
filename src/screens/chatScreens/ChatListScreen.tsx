@@ -32,8 +32,11 @@ const ChatListScreen: React.FC = () => {
 
   useEffect(() => {
     if (isFocussed) {
-      const val = getChatList();
-      setList(val);
+      (async () => {
+        const val = await getChatList();
+
+        setChatList(val);
+      })();
     }
   }, [isFocussed, chatListUpdate]);
 
