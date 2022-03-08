@@ -7,11 +7,11 @@ import {RootStackParamList} from './types';
 import ChatStack from './ChatNav';
 import {useDispatch, useSelector} from 'react-redux';
 import {checkState, userSelector} from '../redux/slices/userSlice';
-import AppLoading from 'expo-app-loading';
 import {Image, Pressable, ToastAndroid, View} from 'react-native';
 import ChatListScreen from '../screens/chatScreens/ChatListScreen';
 import {socketActions, socketSelector} from '../redux/slices/socketSlice';
 import AddUserScreen from '../screens/userScreens/AddUser';
+import RNBootSplash from 'react-native-bootsplash';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -25,8 +25,8 @@ const Routes: React.FC = () => {
   const userState = useSelector(userSelector);
   const socketState = useSelector(socketSelector);
 
-  if (!userState) {
-    return <AppLoading />;
+  if (userState) {
+    RNBootSplash.hide();
   }
 
   // if (userState.isLoggedIn && !socketState.isConnected) {

@@ -11,14 +11,37 @@ import {useDispatch} from 'react-redux';
 import CustomButton from '../../components/CustomButton';
 import TextInputField from '../../components/TextInput';
 import {loginUser} from '../../redux/slices/userSlice';
+import DeviceInfo from 'react-native-device-info';
 
 export type Props = {
   navigation: any;
 };
 
+let static_email: string;
+let static_password: string;
+DeviceInfo.isEmulator().then(isEmulator => {
+  if (!isEmulator) {
+    static_email = 'qwe@asd.com';
+    static_password = 'qwe';
+  } else {
+    static_email = 'zxc@asd.com';
+    static_password = 'zxc';
+  }
+});
+
 const LoginScreen: React.FC<Props> = ({navigation}) => {
-  const [email, setEmail] = useState('zxc@asd.com');
-  const [password, setPassword] = useState<string>('zxc');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  DeviceInfo.isEmulator().then(isEmulator => {
+    if (!isEmulator) {
+      setEmail('asd@asd.com');
+      setPassword('asd');
+    } else {
+      setEmail('qwe@asd.com');
+      setPassword('qwe');
+    }
+  });
   //create refs for the inputs
   const emailRef: any = useRef<TextInput>();
   const passwordRef: any = useRef<TextInput>();

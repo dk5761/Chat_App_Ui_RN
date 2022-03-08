@@ -1,16 +1,10 @@
 import React, {ReactComponentElement, useEffect, useRef, useState} from 'react';
 import Routes from './src/navigation/Routes';
 import {LogBox} from 'react-native';
-import {
-  Nunito_600SemiBold,
-  Nunito_500Medium,
-  useFonts,
-} from '@expo-google-fonts/nunito';
-import AppLoading from 'expo-app-loading';
 import {Provider} from 'react-redux';
 import {store} from './src/redux';
 import {socketActions} from './src/redux/slices/socketSlice';
-import RNBootSplash from 'react-native-bootsplash';
+//import RNBootSplash from 'react-native-bootsplash';
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
 import notifee, {EventType} from '@notifee/react-native';
@@ -20,6 +14,7 @@ LogBox.ignoreLogs([
 ]);
 
 const App: React.FC = () => {
+  // intialize the firebase
   const intializeFirebase = async () => {
     const firebaseCredentials = {
       apiKey: 'AIzaSyBywsjyORgNS5r1TwEV6DAzbnnxFRihbNE',
@@ -38,8 +33,6 @@ const App: React.FC = () => {
 
   intializeFirebase(); // intialize the Firebase on AppLoading
   const onMessageReceived = async (data: any) => {
-    // Do something
-    // notifee.displayNotification(JSON.parse(message.data.notifee));
     console.log(data);
     const channelId = await notifee.createChannel({
       id: 'default',
@@ -51,42 +44,46 @@ const App: React.FC = () => {
       android: {
         channelId,
         smallIcon: 'ic_stat_arrow_drop_down_circle',
+        pressAction: {
+          id: 'default',
+          mainComponent: 'chatListScreen',
+        },
       },
     });
   };
-  // messaging().onMessage(onMessageReceived);
-  // messaging().setBackgroundMessageHandler(onMessageReceived);
   //connect to socket
   store.dispatch(socketActions.startConnecting());
 
   useEffect(() => {
     messaging().onMessage(onMessageReceived);
     messaging().setBackgroundMessageHandler(onMessageReceived);
-    // notifee.onForegroundEvent(async ({type, detail}) => {
-    //   const {notification, pressAction} = detail;
-    //   switch (type) {
-    //     case EventType.DISMISSED:
-    //       //@ts-ignore
-    //       console.log('dismissed the following notification', notification?.id);
-    //       //@ts-ignore
-    //       await notifee.cancelNotification(notification?.id);
-    //       break;
-    //   }
-    // });
-    // notifee.onBackgroundEvent(async ({type, detail}) => {
-    //   const {notification, pressAction} = detail;
-    //   switch (type) {
-    //     case EventType.DISMISSED:
-    //       //@ts-ignore
-    //       console.log('dismissed the following notification', notification?.id);
-    //       //@ts-ignore
-    //       await notifee.cancelNotification(notification?.id);
-    //       break;
-    //   }
-    // });
+    notifee.onForegroundEvent(async ({type, detail}) => {
+      const {notification, pressAction} = detail;
+      switch (type) {
+        case EventType.DISMISSED:
+          //@ts-ignore
+          await notifee.cancelNotification(notification?.id);
+          break;
+        case EventType.PRESS:
+          // console.log('User pressed notification', detail.notification);
+          break;
+      }
+    });
+    notifee.onBackgroundEvent(async ({type, detail}) => {
+      const {notification, pressAction} = detail;
+      switch (type) {
+        case EventType.DISMISSED:
+          //@ts-ignore
+          await notifee.cancelNotification(notification?.id);
+          break;
+        case EventType.PRESS:
+          // console.log('User pressed notification', detail.notification);
+          break;
+      }
+    });
   }, []);
 
-  RNBootSplash.hide();
+  // RNBootSplash.hide();
   return (
     <Provider store={store}>
       <Routes />

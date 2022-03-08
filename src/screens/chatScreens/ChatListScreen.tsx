@@ -1,6 +1,6 @@
 import {useIsFocused} from '@react-navigation/native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, AppRegistry} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
 import FloatingButton from '../../components/floatingButton/floatingButton';
@@ -9,6 +9,7 @@ import {deleteUser, getChatList} from '../../database/db';
 import {appSelector} from '../../redux/slices/appSlice';
 import {socketSelector} from '../../redux/slices/socketSlice';
 import messaging from '@react-native-firebase/messaging';
+import {userSelector} from '../../redux/slices/userSlice';
 
 interface chatListItem {
   id: string;
@@ -23,6 +24,8 @@ const ChatListScreen: React.FC = () => {
   const [chatList, setChatList] = useState<chatListItem[]>([]);
   const socketState = useSelector(socketSelector);
   const appState = useSelector(appSelector);
+  const userState = useSelector(userSelector);
+
   const chatListUpdate = appState.chatListUpdate;
 
   const setList = (value: any) => {
@@ -50,6 +53,7 @@ const ChatListScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      {console.log(userState)}
       <FlatList
         ref={scrollRef}
         data={chatList}
@@ -75,3 +79,4 @@ const styles = StyleSheet.create({
 });
 
 export default ChatListScreen;
+AppRegistry.registerComponent('chatListScreen', () => ChatListScreen);

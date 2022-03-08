@@ -9,15 +9,25 @@ import com.facebook.react.ReactActivityDelegate;
 //bootsplash imports
 import com.zoontek.rnbootsplash.RNBootSplash;
 
+//notifee
+import io.invertase.notifee.NotifeeApiModule;
+
 public class MainActivity extends ReactActivity {
 
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule
    * rendering of the component.
    */
+  // @Override
+  // protected String getMainComponentName() {
+  //   return "alpha01";
+  // }
+  
+
+  //notifeee
   @Override
   protected String getMainComponentName() {
-    return "alpha01";
+    return NotifeeApiModule.getMainComponent("alpha01");
   }
 
   @Override
