@@ -6,7 +6,6 @@ import DeviceInfo from 'react-native-device-info';
 import axios from 'axios';
 import {addUser, checkUser} from '../../database/db';
 import {appActions} from '../../redux/slices/appSlice';
-import {API_URL} from 'react-native-dotenv';
 
 let hostURL: string;
 
@@ -38,7 +37,6 @@ const socketMiddleware: Middleware = (store: any) => {
     const isConnected = socket && socketState.isConnected;
 
     const addUserInChatList = async (id: string) => {
-      console.log('inside the chatlist of socket');
       try {
         const token = await getToken();
         if (token !== null) {

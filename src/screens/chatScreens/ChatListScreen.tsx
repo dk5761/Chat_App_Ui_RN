@@ -2,12 +2,12 @@ import {useIsFocused} from '@react-navigation/native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {View, StyleSheet, AppRegistry} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import FloatingButton from '../../components/floatingButton/floatingButton';
 import ListItem from '../../components/ListItem';
 import {deleteUser, getChatList} from '../../database/db';
 import {appSelector} from '../../redux/slices/appSlice';
-import {socketSelector} from '../../redux/slices/socketSlice';
+import {socketActions, socketSelector} from '../../redux/slices/socketSlice';
 import messaging from '@react-native-firebase/messaging';
 import {userSelector} from '../../redux/slices/userSlice';
 
@@ -32,14 +32,18 @@ const ChatListScreen: React.FC = () => {
     setChatList(value);
   };
   const isFocussed = useIsFocused();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isFocussed) {
       (async () => {
         const val = await getChatList();
-
         setChatList(val);
       })();
+    }
+    //connect to socket if isConnected values false
+    if (!socketState.isConnected) {
+      dispatch(socketActions.startConnecting());
     }
   }, [isFocussed, chatListUpdate]);
 
