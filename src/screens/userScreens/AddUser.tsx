@@ -11,14 +11,15 @@ import FillerPage from './FillerPage';
 import {API_URL} from 'react-native-dotenv';
 export type Props = {};
 
-let hostURL: string;
-DeviceInfo.isEmulator().then(isEmulator => {
-  if (!isEmulator) {
-    hostURL = 'http://192.168.0.104:3000';
-  } else {
-    hostURL = 'http://10.0.2.2:3000';
-  }
-});
+const hostURL: string = 'https://hellox01.herokuapp.com';
+
+// DeviceInfo.isEmulator().then(isEmulator => {
+//   if (!isEmulator) {
+//     hostURL = 'http://192.168.0.104:3000';
+//   } else {
+//     hostURL = 'http://10.0.2.2:3000';
+//   }
+// });
 const AddUserScreen: React.FC<Props> = () => {
   const [searchText, setSearchText] = useState('');
   const userState = useSelector(userSelector);

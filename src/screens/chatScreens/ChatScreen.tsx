@@ -49,14 +49,12 @@ const ChatScreen: React.FC<Props> = ({route}) => {
       status: 'sent',
     };
     setMessageText('');
-    console.log(route.params.data);
     addUser(route.params.data);
     dispatch(socketActions.sendMessage(data));
     sendMessagePushNotification(
       {username, message: messageText},
       route.params.data.deviceToken,
     );
-    console.log('cakked ');
   };
 
   const ref: any = useRef<FlatList>();

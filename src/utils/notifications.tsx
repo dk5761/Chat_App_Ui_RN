@@ -23,7 +23,6 @@ export const sendMessagePushNotification = async (
   const serverKey =
     'AAAAlMsnj4A:APA91bHWdKsTI2X0q00gUHPvMScnYHvQKzv-z0yJzdv8zvhS6gWlj3xd9R_2hKpmOloII9neD9eRN48jSUoQQ0jYMnEvSi5KvbpKB3Uh8bv0ug9vTMIZ4f8AxNIjl4aGJSx7VgwZgqDn';
 
-  console.log(deviceToken);
   await fetch('https://fcm.googleapis.com/fcm/send', {
     method: 'POST',
     headers: {

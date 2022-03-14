@@ -1,4 +1,5 @@
-import React, {useRef, useState} from 'react';
+import {useIsFocused} from '@react-navigation/native';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   TextInput,
@@ -7,10 +8,15 @@ import {
   Pressable,
   StyleSheet,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import CustomButton from '../../components/CustomButton';
 import TextInputField from '../../components/TextInput';
-import {loginUser, registerUser} from '../../redux/slices/userSlice';
+import {
+  clearLoginError,
+  loginUser,
+  registerUser,
+  userSelector,
+} from '../../redux/slices/userSlice';
 
 export type Props = {
   navigation: any;
@@ -80,6 +86,20 @@ const RegisterScreen: React.FC<Props> = ({navigation}) => {
       }),
     );
   };
+
+  const {isError, errorMessage} = useSelector(userSelector);
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (isError && isFocused) {
+      Alert.alert('Error Registering the User', errorMessage, [
+        {
+          text: 'Cancel',
+          onPress: () => dispatch(clearLoginError()),
+          style: 'cancel',
+        },
+      ]);
+    }
+  }, [isError]);
 
   return (
     <View style={styles.container}>

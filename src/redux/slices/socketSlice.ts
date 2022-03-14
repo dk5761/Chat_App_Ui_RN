@@ -12,6 +12,7 @@ interface payloadMessage {
   message: string;
   time: string;
   status: string;
+  image?: string;
 }
 
 interface messageObject {

@@ -8,6 +8,7 @@ import {socketActions} from './src/redux/slices/socketSlice';
 import firebase from '@react-native-firebase/app';
 import messaging from '@react-native-firebase/messaging';
 import notifee, {EventType} from '@notifee/react-native';
+import RNBootSplash from 'react-native-bootsplash';
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -33,7 +34,6 @@ const App: React.FC = () => {
 
   intializeFirebase(); // intialize the Firebase on AppLoading
   const onMessageReceived = async (data: any) => {
-    console.log(data);
     const channelId = await notifee.createChannel({
       id: 'default',
       name: 'Default Channel',
@@ -52,7 +52,7 @@ const App: React.FC = () => {
     });
   };
   //connect to socket
-  store.dispatch(socketActions.startConnecting());
+  // store.dispatch(socketActions.startConnecting());
 
   useEffect(() => {
     messaging().onMessage(onMessageReceived);
@@ -81,9 +81,10 @@ const App: React.FC = () => {
           break;
       }
     });
+    // RNBootSplash.hide();
   }, []);
 
-  // RNBootSplash.hide();
+  RNBootSplash.hide();
   return (
     <Provider store={store}>
       <Routes />

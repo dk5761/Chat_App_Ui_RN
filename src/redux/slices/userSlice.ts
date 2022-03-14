@@ -5,8 +5,7 @@ import DeviceInfo from 'react-native-device-info';
 import {registerForPushNotificationsAsync} from '../../utils/notifications';
 import {API_URL} from 'react-native-dotenv';
 
-let hostURL: string;
-console.log('the api url', API_URL);
+let hostURL: string = 'https://hellox01.herokuapp.com';
 DeviceInfo.isEmulator().then(isEmulator => {
   if (!isEmulator) {
     hostURL = 'http://192.168.0.104:3000';
@@ -60,7 +59,7 @@ export const registerUser = createAsyncThunk(
         return thunkAPI.rejectWithValue(data);
       }
     } catch (e: any) {
-      thunkAPI.rejectWithValue(e.response.data);
+      return thunkAPI.rejectWithValue(e.response.data);
     }
   },
 );
@@ -73,18 +72,20 @@ export const loginUser = createAsyncThunk(
         email,
         password,
       });
-
       let data = await response.data;
+
       if (response.status === 200) {
         updateExpoToken(data.access_token);
         await AsyncStorage.setItem('token', data.access_token);
 
         return thunkAPI.fulfillWithValue(data);
       } else {
-        return thunkAPI.rejectWithValue(data);
+        return thunkAPI.rejectWithValue({message: 'not working'});
       }
     } catch (e: any) {
-      thunkAPI.rejectWithValue(e.response.data);
+      return thunkAPI.rejectWithValue({
+        message: 'invalid credentials',
+      });
     }
   },
 );
@@ -99,6 +100,7 @@ export const fetchUserBytoken = createAsyncThunk(
         },
       });
       let data = await response.data;
+
       if (response.status === 200) {
         // thunkAPI.dispatch(appActions.getChatListState());
         return {...data};
@@ -166,6 +168,9 @@ export const userSlice = createSlice({
 
       return state;
     },
+    clearLoginError: state => {
+      state.isError = false;
+    },
   },
   extraReducers: builder => {
     builder.addCase(registerUser.fulfilled, (state, {payload}: any) => {
@@ -180,23 +185,30 @@ export const userSlice = createSlice({
       state.isFetching = true;
     });
     builder.addCase(registerUser.rejected, (state, payload: any) => {
+      console.log('rejected register', payload);
       state.isFetching = false;
       state.isError = true;
-      state.errorMessage = payload.message;
+      state.errorMessage = payload.payload.message;
     });
     builder.addCase(loginUser.fulfilled, (state, {payload}: any) => {
-      state.id = payload.id;
-      state.email = payload.email;
-      state.username = payload.username;
-      state.isFetching = false;
-      state.isSuccess = true;
-      state.isLoggedIn = true;
-      state.token = payload.access_token;
+      console.log('sucess login ', payload);
+      if (payload) {
+        state.id = payload.id;
+        state.email = payload.email;
+        state.username = payload.username;
+        state.isFetching = false;
+        state.isSuccess = true;
+        state.isLoggedIn = true;
+        state.token = payload.access_token;
+        state.isError = false;
+        state.errorMessage = '';
+      }
     });
     builder.addCase(loginUser.rejected, (state, payload: any) => {
+      console.log('rejected', payload);
       state.isFetching = false;
       state.isError = true;
-      state.errorMessage = payload.message;
+      state.errorMessage = payload.payload.message;
     });
     builder.addCase(loginUser.pending, (state, payload: any) => {
       state.isFetching = true;
@@ -238,7 +250,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const {clearState} = userSlice.actions;
+export const {clearState, clearLoginError} = userSlice.actions;
 
 export const userSelector = (state: any) => {
   return state.users;

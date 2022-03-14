@@ -7,11 +7,16 @@ import {
   Pressable,
   StyleSheet,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import CustomButton from '../../components/CustomButton';
 import TextInputField from '../../components/TextInput';
-import {loginUser} from '../../redux/slices/userSlice';
+import {
+  clearLoginError,
+  loginUser,
+  userSelector,
+} from '../../redux/slices/userSlice';
 import DeviceInfo from 'react-native-device-info';
+import {useIsFocused} from '@react-navigation/native';
 
 export type Props = {
   navigation: any;
@@ -33,15 +38,6 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  DeviceInfo.isEmulator().then(isEmulator => {
-    if (!isEmulator) {
-      setEmail('asd@asd.com');
-      setPassword('asd');
-    } else {
-      setEmail('qwe@asd.com');
-      setPassword('qwe');
-    }
-  });
   //create refs for the inputs
   const emailRef: any = useRef<TextInput>();
   const passwordRef: any = useRef<TextInput>();
@@ -71,6 +67,20 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
       }),
     );
   };
+
+  const {isError, errorMessage} = useSelector(userSelector);
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (isError && isFocused) {
+      Alert.alert('Error Loggin In', errorMessage, [
+        {
+          text: 'Cancel',
+          onPress: () => dispatch(clearLoginError()),
+          style: 'cancel',
+        },
+      ]);
+    }
+  }, [isError]);
 
   return (
     <View style={styles.container}>

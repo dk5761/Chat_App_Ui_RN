@@ -8,7 +8,6 @@ import ListItem from '../../components/ListItem';
 import {deleteUser, getChatList} from '../../database/db';
 import {appSelector} from '../../redux/slices/appSlice';
 import {socketActions, socketSelector} from '../../redux/slices/socketSlice';
-import messaging from '@react-native-firebase/messaging';
 import {userSelector} from '../../redux/slices/userSlice';
 
 interface chatListItem {
@@ -42,6 +41,7 @@ const ChatListScreen: React.FC = () => {
       })();
     }
     //connect to socket if isConnected values false
+
     if (!socketState.isConnected) {
       dispatch(socketActions.startConnecting());
     }
@@ -57,7 +57,6 @@ const ChatListScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {console.log(userState)}
       <FlatList
         ref={scrollRef}
         data={chatList}

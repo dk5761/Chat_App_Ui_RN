@@ -7,15 +7,15 @@ import axios from 'axios';
 import {addUser, checkUser} from '../../database/db';
 import {appActions} from '../../redux/slices/appSlice';
 
-let hostURL: string;
+const hostURL: string = 'https://hellox01.herokuapp.com';
 
-DeviceInfo.isEmulator().then(isEmulator => {
-  if (!isEmulator) {
-    hostURL = 'http://192.168.0.104:3000';
-  } else {
-    hostURL = 'http://10.0.2.2:3000';
-  }
-});
+// DeviceInfo.isEmulator().then(isEmulator => {
+//   if (!isEmulator) {
+//     hostURL = 'http://192.168.0.104:3000';
+//   } else {
+//     hostURL = 'http://10.0.2.2:3000';
+//   }
+// });
 
 const getToken = async () => {
   try {
@@ -84,10 +84,22 @@ const socketMiddleware: Middleware = (store: any) => {
         socket.on('disconnect', () => {
           store.dispatch(socketActions.onDisconnected());
           console.log('disconnected to socket: ', socket.id);
+
+          if (token) {
+            setTimeout(() => {
+              socket.connect();
+            }, 1000);
+          }
         });
 
         socket.on('receive_broadcastmessage', payload => {
           store.dispatch(socketActions.recieveBroadcastMessage(payload));
+        });
+
+        socket.on('connect_error', () => {
+          setTimeout(() => {
+            socket.connect();
+          }, 1000);
         });
 
         socket.on('receiveMessage', async payload => {
